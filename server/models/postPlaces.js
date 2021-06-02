@@ -1,0 +1,17 @@
+import mongoose from "mongoose";
+
+const placesSchema = mongoose.Schema({
+  title: String,
+  author: String,
+  authorId: String,
+  postId: String,
+  likes: Number,
+  tags: [String],
+  businessIDs: [String],
+  createdAt: { type: Date, default: Date.now },
+  destroy: String,
+});
+
+const PostPlaces = mongoose.model("PostPlaces", placesSchema);
+
+export default PostPlaces;
