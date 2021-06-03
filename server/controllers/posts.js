@@ -21,6 +21,7 @@ export const getPostByID = async (req, res) => {
 export const createPosts = async (req, res) => {
   //   res.send("creae post!");
   let createPost = new PostPlaces(req.body);
+  console.log(req);
   try {
     await createPost.save();
     res.status(200).json(createPost);

@@ -1,6 +1,6 @@
 import React from "react";
 
-const Post = () => {
+const Post = ({ post }) => {
   return <h1>POST !!!!</h1>;
 };
 
