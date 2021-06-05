@@ -3,6 +3,7 @@ import PostPlaces from "../models/postPlaces.js";
 export const getPosts = async (req, res) => {
   try {
     let posts = await PostPlaces.find();
+    // await PostPlaces.deleteMany({});
     res.status(200).json(posts);
   } catch (error) {
     res.status(400).json({ error: "Error getting posts" });
@@ -18,13 +19,27 @@ export const getPostByID = async (req, res) => {
   }
 };
 
+export const addPostImages = async (req, res) => {
+  try {
+    let filePaths = [];
+    let images = await req.files;
+    images.forEach((img) => {
+      filePaths.push(`/uploads/${img.filename}`);
+    });
+    res.status(200).json({
+      message: "Successful file upload",
+      filePaths: filePaths,
+    });
+  } catch (error) {
+    res.status(400).json({ error: "Error creating post" });
+  }
+};
+
 export const createPosts = async (req, res) => {
-  //   res.send("creae post!");
   let createPost = new PostPlaces(req.body);
-  console.log(req);
   try {
     await createPost.save();
-    res.status(200).json(createPost);
+    res.status(200).json({ msg: "Successfully added post attributes" });
   } catch (error) {
     res.status(400).json({ error: "Error creating post" });
   }

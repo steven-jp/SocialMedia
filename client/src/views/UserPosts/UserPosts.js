@@ -44,20 +44,20 @@ function UserPosts() {
     <>
       <PostForm />
       <div className={classes.root}>
-        <GridList cellHeight={300} className={classes.gridElement}>
-          {posts.data
-            ? posts.data.map((post) => (
-                <GridListTile key={post._id}>
-                  {/* <img src={tile.img} alt={tile.title} /> */}
-                  <GridListTileBar
-                    title={post.title}
-                    subtitle={<span>by: {post.author}</span>}
-                  />
-                  <Post post={post} />
-                </GridListTile>
-              ))
-            : null}
-        </GridList>
+        {posts.data ? (
+          <GridList cellHeight={300} className={classes.gridElement}>
+            {posts.data.map((post) => (
+              <GridListTile key={post._id}>
+                {/* <img src={tile.img} alt={tile.title} /> */}
+                <GridListTileBar
+                  title={post.title}
+                  subtitle={<span>by: {post.author}</span>}
+                />
+                <Post post={post} />
+              </GridListTile>
+            ))}
+          </GridList>
+        ) : null}
       </div>
     </>
   );

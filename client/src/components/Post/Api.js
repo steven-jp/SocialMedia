@@ -13,11 +13,25 @@ async function getPosts(setPosts) {
     });
 }
 
-function createPost(values) {
+function createPost(formData, postAttributes) {
   axios
-    .post(URL + "/posts", { title: values.title })
-    .then(() => {
-      console.log("Sucess");
+    .post(URL + "/posts/uploads", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    })
+    .then((res) => {
+      console.log(res);
+      let { filePaths } = res.data;
+      console.log(filePaths);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  axios
+    .post(URL + "/posts", postAttributes)
+    .then((res) => {
+      console.log(res);
     })
     .catch((error) => {
       console.log(error);
