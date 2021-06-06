@@ -1,5 +1,4 @@
 import PostPlaces from "../models/postPlaces.js";
-import gfs from "../index.js";
 
 export const getPosts = async (req, res) => {
   try {
@@ -10,7 +9,6 @@ export const getPosts = async (req, res) => {
     res.status(400).json({ error: "Error getting posts" });
   }
 };
-
 export const getPostByID = async (req, res) => {
   try {
     let posts = await PostPlaces.findById(req.params.id);

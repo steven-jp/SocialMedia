@@ -28,14 +28,14 @@ function createPost(formData, postAttributes) {
     .catch((error) => {
       console.log(error);
     });
-  // axios
-  //   .post(URL + "/posts", postAttributes)
-  //   .then((res) => {
-  //     console.log(res);
-  //   })
-  //   .catch((error) => {
-  //     console.log(error);
-  //   });
+  axios
+    .post(URL + "/posts", postAttributes)
+    .then((res) => {
+      console.log(res);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 }
 
 export { getPosts, createPost };

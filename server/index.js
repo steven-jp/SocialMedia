@@ -3,6 +3,10 @@ import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
 import posts from "./routes/posts.js";
+import multer from "multer";
+import * as crypto from "crypto";
+import GridFsStorage from "multer-gridfs-storage";
+import path from "path";
 
 dotenv.config();
 const port = process.env.PORT || 5000;
@@ -11,11 +15,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors());
 
-//Routes
-app.use("/posts", posts);
-
 const CONNECTION = process.env.DB_CONNECTION;
-let gfs;
+let gridFs;
 mongoose
   .connect(CONNECTION, {
     useNewUrlParser: true,
@@ -23,7 +24,7 @@ mongoose
   })
   .then(() => {
     app.listen(port, () => console.log(`Server now running on port ${port}!`));
-    gfs = new mongoose.mongo.GridFSBucket(connect.db, {
+    gridFs = new mongoose.mongo.GridFSBucket(connect.db, {
       bucketName: "uploads",
     });
   })
@@ -31,4 +32,37 @@ mongoose
 
 mongoose.set("useFindAndModify", false);
 
-export default gfs;
+// //Storage of files on server
+// const storage = multer.diskStorage({
+//   destination: (req, file, cb) => {
+//     cb(null, "./public/uploads");
+//   },
+//   filename: (req, file, cb) => {
+//     cb(null, file.originalname);
+//   },
+// });
+
+//Storage of files on mongo.
+const storage = new GridFsStorage({
+  url: CONNECTION,
+  options: { useUnifiedTopology: true },
+  file: (req, file) => {
+    return new Promise((resolve, reject) => {
+      crypto.randomBytes(16, (err, buf) => {
+        if (err) {
+          return reject(err);
+        }
+        const filename = buf.toString("hex") + path.extname(file.originalname);
+        const fileInfo = {
+          filename: filename,
+          bucketName: "uploads",
+        };
+        resolve(fileInfo);
+      });
+    });
+  },
+});
+const uploads = multer({ storage: storage });
+
+//Routes
+app.use("/posts", posts(gridFs, uploads));
