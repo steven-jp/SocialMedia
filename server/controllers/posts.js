@@ -1,4 +1,5 @@
 import PostPlaces from "../models/postPlaces.js";
+import gfs from "../index.js";
 
 export const getPosts = async (req, res) => {
   try {
@@ -21,14 +22,13 @@ export const getPostByID = async (req, res) => {
 
 export const addPostImages = async (req, res) => {
   try {
-    let filePaths = [];
-    let images = await req.files;
-    images.forEach((img) => {
-      filePaths.push(`/uploads/${img.filename}`);
-    });
+    // let filePaths = [];
+    // let images = await req.files;
+    // images.forEach((img) => {
+    //   filePaths.push(`/uploads/${img.filename}`);
+    // });
     res.status(200).json({
       message: "Successful file upload",
-      filePaths: filePaths,
     });
   } catch (error) {
     res.status(400).json({ error: "Error creating post" });

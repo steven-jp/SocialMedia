@@ -22,20 +22,20 @@ function createPost(formData, postAttributes) {
     })
     .then((res) => {
       console.log(res);
-      let { filePaths } = res.data;
-      console.log(filePaths);
+      // let { filePaths } = res.data;
+      // console.log(filePaths);
     })
     .catch((error) => {
       console.log(error);
     });
-  axios
-    .post(URL + "/posts", postAttributes)
-    .then((res) => {
-      console.log(res);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  // axios
+  //   .post(URL + "/posts", postAttributes)
+  //   .then((res) => {
+  //     console.log(res);
+  //   })
+  //   .catch((error) => {
+  //     console.log(error);
+  //   });
 }
 
 export { getPosts, createPost };
