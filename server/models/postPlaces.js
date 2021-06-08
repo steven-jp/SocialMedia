@@ -1,11 +1,14 @@
 import mongoose from "mongoose";
 
+const ObjectId = mongoose.Schema.Types.ObjectId;
+
 const placesSchema = mongoose.Schema({
   title: String,
   author: String,
   authorId: String,
   postId: String,
   likes: Number,
+  images: [ObjectId],
   tags: [String],
   businessIDs: [String],
   createdAt: { type: Date, default: Date.now },

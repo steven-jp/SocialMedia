@@ -9,8 +9,12 @@ import {
 import { useState, useEffect } from "react";
 import PostForm from "../../components/Post/PostForm";
 import Post from "../../components/Post/Post";
-import { getPosts } from "../../components/Post/Api";
-
+import {
+  getPosts,
+  getImageByFilename,
+  getImageByID,
+} from "../../components/Post/Api";
+import SwipeableImages from "../../components/Swipeable/SwipeableImages";
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
@@ -18,10 +22,10 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "space-around",
     overflow: "hidden",
   },
-  //   gridElement: {
-  //     width: 500,
-  //     height: 500,
-  //   },
+  gridElement: {
+    width: 500,
+    height: 500,
+  },
 }));
 
 //Add authnetication. If user is this user we'll add a postform where they can post.
@@ -44,11 +48,11 @@ function UserPosts() {
     <>
       <PostForm />
       <div className={classes.root}>
-        {posts.data ? (
+        {posts ? (
           <GridList cellHeight={300} className={classes.gridElement}>
-            {posts.data.map((post) => (
+            {posts.map((post) => (
               <GridListTile key={post._id}>
-                {/* <img src={tile.img} alt={tile.title} /> */}
+                <SwipeableImages images={post.images} />
                 <GridListTileBar
                   title={post.title}
                   subtitle={<span>by: {post.author}</span>}

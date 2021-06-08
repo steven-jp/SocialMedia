@@ -1,43 +1,172 @@
 import PostPlaces from "../models/postPlaces.js";
+import GridFS, { gridFs } from "../index.js";
+import mongoose from "mongoose";
 
+export const getImagesByFilename = async (req, res) => {
+  console.log("fn ! ");
+
+  try {
+    let gridFs = GridFS();
+    // { _id: mongoose.Types.ObjectId("60bc09f0faef19b64c582ec9") },
+    gridFs.find({ filename: req.params.filename }).toArray((err, files) => {
+      if (!files[0] || files.length === 0) {
+        return res.status(200).json({
+          message: "No posts exist",
+        });
+      }
+      if (
+        files[0].contentType === "image/jpeg" ||
+        files[0].contentType === "image/png"
+      ) {
+        gridFs.openDownloadStreamByName(files[0].filename).pipe(res);
+      } else {
+        res
+          .status(400)
+          .json({ error: "Only jpeg and png images are supported" });
+      }
+    });
+  } catch (error) {
+    res.status(400).json({ error: "Error getting posts" });
+  }
+};
+
+async function getImage(id) {
+  return new Promise((res, rej) => {
+    let gridFs = GridFS();
+    console.log("id , ", id);
+    gridFs.find({ _id: mongoose.Types.ObjectId(id) }).toArray((err, files) => {
+      if (err) rej(err);
+      if (!files[0] || files.length === 0) {
+        res(null);
+      } else {
+        res(files[0]);
+      }
+    });
+    //   if (!files[0] || files.length === 0) {
+    //     return res.status(200).json({
+    //       message: "No posts exist",
+    //     });
+    //   }
+    //   // console.log(files[0]);
+    //   if (
+    //     files[0].contentType === "image/jpeg" ||
+    //     files[0].contentType === "image/png"
+    //   ) {
+    //     gridFs
+    //       .openDownloadStream(mongoose.Types.ObjectId(req.params.id))
+    //       .pipe(res);
+    //   } else {
+    //     res
+    //       .status(400)
+    //       .json({ error: "Only jpeg and png images are supported" });
+    //   }
+    // });
+  });
+}
+
+export const getImagesByID = async (req, res) => {
+  try {
+    let gridFs = GridFS();
+    console.log("id , ", req.params.id);
+    let image = await getImage(req.params.id);
+    console.log("node img ", image);
+    if (
+      image.contentType === "image/jpeg" ||
+      image.contentType === "image/png"
+    ) {
+      gridFs
+        .openDownloadStream(mongoose.Types.ObjectId(req.params.id))
+        .pipe(res);
+    } else {
+      res.status(400).json({ error: "Only jpeg and png images are supported" });
+    }
+
+    // gridFs
+    //   .find({ _id: mongoose.Types.ObjectId(req.params.id) })
+    //   .toArray((err, files) => {
+    //     if (!files[0] || files.length === 0) {
+    //       return res.status(200).json({
+    //         message: "No posts exist",
+    //       });
+    //     }
+    //     // console.log(files[0]);
+    //     if (
+    //       files[0].contentType === "image/jpeg" ||
+    //       files[0].contentType === "image/png"
+    //     ) {
+    //       gridFs
+    //         .openDownloadStream(mongoose.Types.ObjectId(req.params.id))
+    //         .pipe(res);
+    //     } else {
+    //       res
+    //         .status(400)
+    //         .json({ error: "Only jpeg and png images are supported" });
+    //     }
+    //   });
+  } catch (error) {
+    res.status(400).json({ error: "Error getting image" });
+  }
+};
 export const getPosts = async (req, res) => {
   try {
     let posts = await PostPlaces.find();
-    // await PostPlaces.deleteMany({});
-    res.status(200).json(posts);
+
+    //get image ids
+    res.status(200).json({
+      posts,
+    });
   } catch (error) {
     res.status(400).json({ error: "Error getting posts" });
   }
 };
 export const getPostByID = async (req, res) => {
-  try {
-    let posts = await PostPlaces.findById(req.params.id);
-    res.status(200).json(posts);
-  } catch (error) {
-    res.status(400).json({ error: "Error getting post with id" });
-  }
+  let imagesIds = [];
+  let posts = await PostPlaces.findById(req.params.id);
+
+  //get image ids
+  imagesIds = posts.images;
+  let gridFs = GridFS();
+  gridFs.find({ _id: { $in: imagesIds } }).toArray((err, files) => {
+    if (!files[0] || files.length === 0) {
+      return res.status(200).json({
+        message: "This file doesn't exist",
+      });
+    }
+    res.status(200).json({
+      file: files[0],
+    });
+  });
 };
 
-export const addPostImages = async (req, res) => {
+export const addPostImages = async (req, res, next) => {
   try {
-    // let filePaths = [];
-    // let images = await req.files;
-    // images.forEach((img) => {
-    //   filePaths.push(`/uploads/${img.filename}`);
-    // });
-    res.status(200).json({
-      message: "Successful file upload",
+    let imageIds = [];
+    let images = await req.files;
+    images.forEach((img) => {
+      imageIds.push(img.id);
     });
+    req.body.imageIds = imageIds;
+
+    //This won't be be hit because of front end limitation
+    if (imageIds.length === 0) {
+      res.status(200).json({
+        message: "Posts must contain at least 1 image",
+      });
+    } else {
+      next();
+    }
   } catch (error) {
     res.status(400).json({ error: "Error creating post" });
   }
 };
 
 export const createPosts = async (req, res) => {
-  let createPost = new PostPlaces(req.body);
   try {
+    let postAttributes = await JSON.parse(req.body.attributes);
+    postAttributes.images = req.body.imageIds;
+    let createPost = new PostPlaces(postAttributes);
     await createPost.save();
-    res.status(200).json({ msg: "Successfully added post attributes" });
+    res.status(200).json({ msg: "Successfully created a post" });
   } catch (error) {
     res.status(400).json({ error: "Error creating post" });
   }

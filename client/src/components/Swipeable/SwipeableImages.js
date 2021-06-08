@@ -10,12 +10,16 @@ const useStyles = makeStyles((theme) => ({
 
 const SwipeableImages = ({ images }) => {
   const classes = useStyles();
-
   let blobImgs = [];
-  for (let i = 0; i < images.length; i++) {
-    blobImgs.push(URL.createObjectURL(images[i]));
-  }
 
+  // Convert to blob if dealing with files.
+  if (images.length > 0 && images[0] instanceof File) {
+    for (let i = 0; i < images.length; i++) {
+      blobImgs.push(URL.createObjectURL(images[i]));
+    }
+  } else {
+    blobImgs = images;
+  }
   return (
     <div>
       {blobImgs.length > 0 ? (

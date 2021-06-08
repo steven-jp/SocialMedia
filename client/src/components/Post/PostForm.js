@@ -27,6 +27,7 @@ const PostForm = () => {
   const classes = useStyles();
   const [postAttributes, setPostAttributes] = useState({
     title: "",
+    images: [],
   });
 
   const [uploadImages, setUploadImages] = useState([]);
@@ -34,7 +35,6 @@ const PostForm = () => {
     updatePostAttributes(e.target.name, e.target.value);
   }
 
-  //add so that 1 photo must be present
   function submitFormHandler(e) {
     e.preventDefault();
     if (postAttributes.title.length > 0 && uploadImages.length > 0) {
@@ -42,8 +42,8 @@ const PostForm = () => {
       uploadImages.forEach((img) => {
         formData.append("image", img);
       });
-      // createPost(formValues);
-      createPost(formData, postAttributes);
+      formData.append("attributes", JSON.stringify(postAttributes));
+      createPost(formData);
     }
   }
 

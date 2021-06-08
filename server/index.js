@@ -16,7 +16,7 @@ app.use(express.json());
 app.use(cors());
 
 const CONNECTION = process.env.DB_CONNECTION;
-let gridFs;
+export let gridFs;
 mongoose
   .connect(CONNECTION, {
     useNewUrlParser: true,
@@ -24,7 +24,7 @@ mongoose
   })
   .then(() => {
     app.listen(port, () => console.log(`Server now running on port ${port}!`));
-    gridFs = new mongoose.mongo.GridFSBucket(connect.db, {
+    gridFs = new mongoose.mongo.GridFSBucket(mongoose.connection.db, {
       bucketName: "uploads",
     });
   })
@@ -52,7 +52,8 @@ const storage = new GridFsStorage({
         if (err) {
           return reject(err);
         }
-        const filename = buf.toString("hex") + path.extname(file.originalname);
+        const filename = buf.toString("hex") + path.extname(file.filename);
+
         const fileInfo = {
           filename: filename,
           bucketName: "uploads",
@@ -65,4 +66,10 @@ const storage = new GridFsStorage({
 const uploads = multer({ storage: storage });
 
 //Routes
-app.use("/posts", posts(gridFs, uploads));
+app.use("/posts", posts(uploads));
+
+export default function GridFS() {
+  return gridFs;
+}
+
+// export default gfs;
