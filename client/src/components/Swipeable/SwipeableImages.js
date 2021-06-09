@@ -4,6 +4,7 @@ import Carousel from "react-material-ui-carousel";
 const useStyles = makeStyles((theme) => ({
   image: {
     backgroundSize: "contain",
+    width: "100%",
     paddingTop: "56.25%", // 16:9
   },
 }));

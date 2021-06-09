@@ -9,11 +9,7 @@ import {
 import { useState, useEffect } from "react";
 import PostForm from "../../components/Post/PostForm";
 import Post from "../../components/Post/Post";
-import {
-  getPosts,
-  getImageByFilename,
-  getImageByID,
-} from "../../components/Post/Api";
+import { getPosts } from "../../components/Post/Api";
 import SwipeableImages from "../../components/Swipeable/SwipeableImages";
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,10 +18,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "space-around",
     overflow: "hidden",
   },
-  gridElement: {
-    width: 500,
-    height: 500,
-  },
+  gridElement: {},
 }));
 
 //Add authnetication. If user is this user we'll add a postform where they can post.

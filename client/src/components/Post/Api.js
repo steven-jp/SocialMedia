@@ -66,7 +66,8 @@ async function getPosts(setPosts) {
       console.log(error);
     });
 }
-function createPost(formData) {
+async function createPost(formData) {
+  console.log(...formData);
   axios
     .post(URL + "/posts", formData, {
       headers: {
@@ -75,9 +76,6 @@ function createPost(formData) {
     })
     .then((res, req) => {
       console.log(res);
-      // let { filePaths } = res.data;
-      // console.log(filePaths);
-      // imagesIds = res.files;
     })
     .catch((error) => {
       console.log(error);
