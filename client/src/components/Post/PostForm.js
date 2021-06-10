@@ -6,6 +6,7 @@ import {
   Button,
   Grid,
   GridList,
+  Container,
 } from "@material-ui/core";
 import SwipeableImages from "../Swipeable/SwipeableImages.js";
 const useStyles = makeStyles((theme) => ({
@@ -13,6 +14,8 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "rgba(219, 213, 212,.5)",
     borderRadius: "20px",
     height: "40vh",
+    marginTop: "2px",
+    boxShadow: "0 0 20px 2px rgba(0, 0, 0, 0.4)",
   },
   inputButton: {
     display: "none",
@@ -74,55 +77,56 @@ const PostForm = () => {
       noValidate
       autoComplete="off"
     >
-      {/* <Grid container spacing={1} direction="row"> */}
-      <GridList cols={2} className={classes.container}>
-        <Grid
-          container
-          item
-          direction="column"
-          justify="center"
-          alignItems="flex-start"
-          cols={1}
-          xs={2}
-        >
-          <Grid item xs>
-            <TextField
-              id="form-title"
-              label="Title"
-              name="title"
-              value={title}
-              InputLabelProps={{ required: true }}
-              onChange={changeFormHandler}
-            />
-          </Grid>
-          <Grid item xs>
-            <input
-              accept="image/*"
-              id="upload-button"
-              onChange={onImageChange}
-              className={classes.inputButton}
-              multiple
-              type="file"
-            />
-            <label htmlFor="upload-button">
-              <Button variant="contained" component="span">
-                Upload
+      <Container maxWidth="md">
+        {/* <Grid container spacing={1} direction="row"> */}
+        <GridList cols={2} className={classes.container}>
+          <Grid
+            container
+            item
+            direction="column"
+            justify="center"
+            alignItems="flex-start"
+            cols={1}
+            xs={2}
+          >
+            <Grid item xs>
+              <TextField
+                id="form-title"
+                label="Title"
+                name="title"
+                value={title}
+                InputLabelProps={{ required: true }}
+                onChange={changeFormHandler}
+              />
+            </Grid>
+            <Grid item xs>
+              <input
+                accept="image/*"
+                id="upload-button"
+                onChange={onImageChange}
+                className={classes.inputButton}
+                multiple
+                type="file"
+              />
+              <label htmlFor="upload-button">
+                <Button variant="contained" component="span">
+                  Upload
+                </Button>
+              </label>
+            </Grid>
+            <Grid item xs>
+              <Button type="submit" variant="contained">
+                Submit
               </Button>
-            </label>
+            </Grid>
           </Grid>
-          <Grid item xs>
-            <Button type="submit" variant="contained">
-              Submit
-            </Button>
+          <Grid container item xs={8}>
+            <Grid item xs>
+              <SwipeableImages images={uploadImages} />
+            </Grid>
           </Grid>
-        </Grid>
-
-        <Grid container item xs={8}>
-          <Grid item xs>
-            <SwipeableImages images={uploadImages} />
-          </Grid>
-        </Grid>
-      </GridList>
+        </GridList>
+      </Container>
     </form>
   );
 };

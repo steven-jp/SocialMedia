@@ -17,8 +17,11 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: "wrap",
     justifyContent: "space-around",
     overflow: "hidden",
+    marginTop: "50px",
   },
-  gridElement: {},
+  gridElement: {
+    margin: "100px",
+  },
 }));
 
 //Add authnetication. If user is this user we'll add a postform where they can post.
@@ -41,20 +44,22 @@ function UserPosts() {
     <>
       <PostForm />
       <div className={classes.root}>
-        {posts ? (
-          <GridList cellHeight={300} className={classes.gridElement}>
-            {posts.map((post) => (
-              <GridListTile key={post._id}>
-                <SwipeableImages images={post.images} />
-                <GridListTileBar
-                  title={post.title}
-                  subtitle={<span>by: {post.author}</span>}
-                />
-                <Post post={post} />
-              </GridListTile>
-            ))}
-          </GridList>
-        ) : null}
+        <Container maxWidth="md">
+          {posts ? (
+            <GridList cellHeight={300} className={classes.gridElement}>
+              {posts.map((post) => (
+                <GridListTile key={post._id}>
+                  <SwipeableImages images={post.images} />
+                  <Post post={post} />
+                  <GridListTileBar
+                    title={post.title}
+                    subtitle={<span>by: {post.author}</span>}
+                  />
+                </GridListTile>
+              ))}
+            </GridList>
+          ) : null}
+        </Container>
       </div>
     </>
   );
