@@ -4,7 +4,6 @@ import {
   TextField,
   Button,
   Grid,
-  GridList,
   Container,
 } from "@material-ui/core";
 
@@ -53,6 +52,16 @@ const Login = () => {
           <Button type="login" variant="contained">
             Login
           </Button>
+          <p>
+            Not a user?
+            <Button
+              color="primary"
+              style={{ textTransform: "none" }}
+              onClick={() => setLogin(!login)}
+            >
+              Register
+            </Button>
+          </p>
         </Grid>
       ) : (
         <Grid container direction="column">
@@ -89,6 +98,16 @@ const Login = () => {
           <Button type="login" variant="contained">
             Submit
           </Button>
+          <p>
+            Already have an account?
+            <Button
+              color="primary"
+              style={{ textTransform: "none" }}
+              onClick={() => setLogin(!login)}
+            >
+              Login
+            </Button>
+          </p>
         </Grid>
       )}
     </Container>
