@@ -6,6 +6,7 @@ import {
   Grid,
   Container,
 } from "@material-ui/core";
+import { createUser } from "../../components/Authentication/Api";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,11 +23,16 @@ const Login = () => {
   const classes = useStyles();
   const [user, setUser] = useState({
     email: "",
+    username: "",
     password: "",
   });
 
   function loginHandler(e) {
     setUser({ ...user, [e.target.name]: e.target.value });
+  }
+
+  function userHandler(e) {
+    createUser(user);
   }
 
   return (
@@ -49,7 +55,7 @@ const Login = () => {
             InputLabelProps={{ required: true }}
             onChange={loginHandler}
           />
-          <Button type="login" variant="contained">
+          <Button type="login" variant="contained" onClick={userHandler}>
             Login
           </Button>
           <p>

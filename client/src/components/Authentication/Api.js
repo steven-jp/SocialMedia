@@ -2,26 +2,19 @@ import axios from "axios";
 
 let URL = "http://localhost:5000";
 
-async function getPosts(setPosts) {
+async function createUser(user) {
+  console.log(user);
   axios
-    .get(URL + "/login")
+    .put(URL + "/user/login", {
+      email: user.email,
+      password: user.password,
+    })
     .then((res) => {
-      setPosts(res);
+      console.log(res);
     })
     .catch((error) => {
       console.log(error);
     });
 }
 
-function createPost(values) {
-  axios
-    .post(URL + "/login", { title: values.title })
-    .then(() => {
-      console.log("Sucess");
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-}
-
-export { getPosts, createPost };
+export { createUser };

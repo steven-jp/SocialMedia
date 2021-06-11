@@ -67,7 +67,7 @@ const storage = new GridFsStorage({
 const uploads = multer({ storage: storage });
 
 //Routes
-app.use("/user", auth);
+app.use("/user", auth());
 app.use("/posts", posts(uploads));
 
 export default function GridFS() {
