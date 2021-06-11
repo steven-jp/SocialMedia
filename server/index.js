@@ -70,8 +70,8 @@ const uploads = multer({ storage: storage });
 app.use("/user", auth());
 app.use("/posts", posts(uploads));
 
-export default function GridFS() {
+function GridFS() {
   return gridFs;
 }
 
-// export default gfs;
+export default { GridFS };

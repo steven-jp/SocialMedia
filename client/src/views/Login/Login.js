@@ -6,7 +6,7 @@ import {
   Grid,
   Container,
 } from "@material-ui/core";
-import { createUser } from "../../components/Authentication/Api";
+import { createUser, loginUser } from "../../components/Authentication/Api";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,16 +25,19 @@ const Login = () => {
     email: "",
     username: "",
     password: "",
+    confirmedPassword: "",
   });
 
-  function loginHandler(e) {
+  function changeHandler(e) {
     setUser({ ...user, [e.target.name]: e.target.value });
   }
 
-  function userHandler(e) {
+  function registerHandler(e) {
     createUser(user);
   }
-
+  function loginHandler(e) {
+    loginUser(user);
+  }
   return (
     <Container maxWidth="sm" className={classes.root}>
       <h1>Login</h1>
@@ -45,7 +48,7 @@ const Login = () => {
             name="email"
             value={user.email}
             InputLabelProps={{ required: true }}
-            onChange={loginHandler}
+            onChange={changeHandler}
           />
           <TextField
             label="Password"
@@ -53,9 +56,9 @@ const Login = () => {
             type="password"
             value={user.password}
             InputLabelProps={{ required: true }}
-            onChange={loginHandler}
+            onChange={changeHandler}
           />
-          <Button type="login" variant="contained" onClick={userHandler}>
+          <Button type="login" variant="contained" onClick={loginHandler}>
             Login
           </Button>
           <p>
@@ -76,14 +79,14 @@ const Login = () => {
             name="username"
             value={user.username}
             InputLabelProps={{ required: true }}
-            onChange={loginHandler}
+            onChange={changeHandler}
           />
           <TextField
             label="Email"
             name="email"
             value={user.email}
             InputLabelProps={{ required: true }}
-            onChange={loginHandler}
+            onChange={changeHandler}
           />
           <TextField
             label="Password"
@@ -91,7 +94,7 @@ const Login = () => {
             type="password"
             value={user.password}
             InputLabelProps={{ required: true }}
-            onChange={loginHandler}
+            onChange={changeHandler}
           />
           <TextField
             label="Confirm Password"
@@ -99,9 +102,9 @@ const Login = () => {
             type="password"
             value={user.confirmedPassword}
             InputLabelProps={{ required: true }}
-            onChange={loginHandler}
+            onChange={changeHandler}
           />
-          <Button type="login" variant="contained">
+          <Button type="login" variant="contained" onClick={registerHandler}>
             Submit
           </Button>
           <p>
