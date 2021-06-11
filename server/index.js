@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
 import posts from "./routes/posts.js";
+import auth from "./routes/auth.js";
 import multer from "multer";
 import * as crypto from "crypto";
 import GridFsStorage from "multer-gridfs-storage";
@@ -66,6 +67,7 @@ const storage = new GridFsStorage({
 const uploads = multer({ storage: storage });
 
 //Routes
+app.use("/user", auth);
 app.use("/posts", posts(uploads));
 
 export default function GridFS() {
