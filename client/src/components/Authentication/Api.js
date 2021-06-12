@@ -9,6 +9,7 @@ async function createUser(user) {
       username: user.username,
       email: user.email,
       password: user.password,
+      confirmedPassword: user.confirmedPassword,
     })
     .then((res) => {
       console.log(res.data);

@@ -5,23 +5,21 @@ const ObjectId = mongoose.Schema.Types.ObjectId;
 const userSchema = mongoose.Schema({
   username: {
     type: String,
-    required: true,
-    unique: true,
-    min: [6, "Username must be at least 6 characters"],
-    max: [20, "Username cannot be longer than 20 characters"],
+    required: [true, "Please enter a username."],
+    unique: [true, "This username already exists."],
+    minlength: [6, "The username must be at least 6 characters."],
+    maxlength: [20, "The username can be at most 20 characters."],
   },
   email: {
+    required: [true, "Please enter an email."],
+    unique: [true, "This email already exists."],
+    minlength: [3, "The email must be at least 3 characters."],
+    maxlength: [320, "The email can be at most 320 characters."],
     type: String,
-    required: true,
-    unique: true,
-    min: [3, "Email must be at least 3 characters"],
-    max: [320, "Email cannot be longer than 320 characters"],
   },
   password: {
     type: String,
-    required: true,
-    min: [8, "Password must be at least 8 characters"],
-    max: [320, "Password cannot be longer than 100 characters"],
+    required: [true, "Please enter a password."],
   },
   createdAt: { type: Date, default: Date.now },
 });
