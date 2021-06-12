@@ -68,7 +68,6 @@ const PostForm = () => {
       setUploadImages(images);
     }
   }
-
   const { title } = postAttributes;
   return (
     <form

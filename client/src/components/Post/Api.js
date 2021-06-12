@@ -37,6 +37,7 @@ async function getPosts(setPosts) {
     .then((res) => {
       let updatedPosts = [];
       let allPromises = [];
+      console.log(posts);
       posts.forEach((post) => {
         let currentPost = { ...post };
         let currentPromises = [];

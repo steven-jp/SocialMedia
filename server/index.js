@@ -17,7 +17,7 @@ app.use(express.json());
 app.use(cors());
 
 const CONNECTION = process.env.DB_CONNECTION;
-export let gridFs;
+let gridFs;
 mongoose
   .connect(CONNECTION, {
     useNewUrlParser: true,
@@ -70,8 +70,9 @@ const uploads = multer({ storage: storage });
 app.use("/user", auth());
 app.use("/posts", posts(uploads));
 
-function GridFS() {
+export function GridFS() {
+  gridFs = new mongoose.mongo.GridFSBucket(mongoose.connection.db, {
+    bucketName: "uploads",
+  });
   return gridFs;
 }
-
-export default { GridFS };

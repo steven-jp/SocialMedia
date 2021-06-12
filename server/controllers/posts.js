@@ -1,5 +1,5 @@
 import PostPlaces from "../models/postPlaces.js";
-import GridFS from "../index.js";
+import { GridFS } from "../index.js";
 import mongoose from "mongoose";
 
 export const getImagesByFilename = async (req, res) => {
@@ -43,6 +43,7 @@ async function getImage(id) {
 
 export const getImagesByID = async (req, res) => {
   try {
+    console.log("here-getimagebyid");
     let gridFs = GridFS();
     let image = await getImage(req.params.id);
     if (

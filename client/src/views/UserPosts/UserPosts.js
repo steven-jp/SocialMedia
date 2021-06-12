@@ -39,7 +39,7 @@ function UserPosts() {
   useEffect(() => {
     getPosts(setPosts);
   }, [setPosts]);
-
+  console.log(posts);
   return (
     <>
       <PostForm />
