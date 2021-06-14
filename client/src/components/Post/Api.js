@@ -34,12 +34,9 @@ async function getPosts(setPosts) {
     .get(URL + "/posts", { withCredentials: true })
 
     .then((res, req) => {
-      console.log("c1 ", req);
       posts = res.data.posts;
     })
     .then((res, req) => {
-      console.log("c2 ", req);
-
       let updatedPosts = [];
       let allPromises = [];
       posts.forEach((post) => {

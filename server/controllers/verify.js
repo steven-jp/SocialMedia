@@ -6,7 +6,6 @@ export const verify = (req, res, next) => {
   dotenv.config();
 
   const token = req.cookies[COOKIE_NAME];
-  // next();
   if (token) {
     jwt.verify(token, process.env.COOKIE_SECRET, (err) => {
       if (err) {

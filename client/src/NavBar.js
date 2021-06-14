@@ -1,6 +1,7 @@
-import React from "react";
 import { makeStyles } from "@material-ui/core";
 import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { isLoggedIn } from "./components/Authentication/Api";
 
 const useStyles = makeStyles((theme) => ({
   nav: {
@@ -20,14 +21,22 @@ const useStyles = makeStyles((theme) => ({
 const NavBar = () => {
   const classes = useStyles();
 
+  const [userData, setUserData] = useState(null);
+
+  useEffect(() => {
+    isLoggedIn(setUserData);
+  }, [setUserData]);
+
   return (
     <nav className={classes.nav}>
       <Link className={classes.links} to="/">
         Home
       </Link>
-      <Link className={classes.links} to="/posts">
-        My posts
-      </Link>
+      {userData ? (
+        <Link className={classes.links} to="/posts">
+          My posts
+        </Link>
+      ) : null}
       <Link className={classes.links} to="/login">
         Login
       </Link>

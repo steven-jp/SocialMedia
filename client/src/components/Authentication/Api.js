@@ -47,4 +47,18 @@ async function loginUser(user) {
     });
 }
 
-export { createUser, loginUser };
+async function isLoggedIn(setUserData) {
+  axios
+    .get(URL + "/user/login", { withCredentials: true, credentials: "include" })
+    .then((res) => {
+      if (res.data) {
+        // console.log(res.data);
+        setUserData(res.data);
+      }
+    })
+    .catch((error) => {
+      // console.log(error);
+    });
+}
+
+export { createUser, loginUser, isLoggedIn };

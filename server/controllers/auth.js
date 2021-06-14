@@ -104,6 +104,32 @@ export const createUser = async (req, res) => {
   }
 };
 
+export const isLoggedIn = async (req, res) => {
+  dotenv.config();
+
+  const token = req.cookies[COOKIE_NAME];
+  if (token) {
+    jwt.verify(token, process.env.COOKIE_SECRET, async (err, decodedToken) => {
+      if (err) {
+        res.status(400).json({ error: "User is not logged in" });
+      } else {
+        let userId = decodedToken.id;
+        await User.findById(userId, (err, user) => {
+          if (err) {
+            res.status(400).json({ error: "User is not logged in" });
+          } else {
+            res
+              .status(200)
+              .json({ email: user.email, username: user.username });
+          }
+        });
+      }
+    });
+  } else {
+    res.status(400).json({ message: "User is not logged in" });
+  }
+};
+
 // update error message if a part of mongo validators.
 function updateErrorMessage(err) {
   if (err.message.includes("Users validation failed: ")) {

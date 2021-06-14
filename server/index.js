@@ -69,7 +69,6 @@ const uploads = multer({ storage: storage });
 
 //Routes
 app.use("/user", auth());
-const COOKIE_NAME = "Occassions-cookie";
 
 app.use("/posts", posts(uploads));
 

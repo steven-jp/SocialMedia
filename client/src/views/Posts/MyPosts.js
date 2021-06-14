@@ -1,15 +1,8 @@
-import {
-  Container,
-  GridList,
-  GridListTile,
-  GridListTileBar,
-  makeStyles,
-} from "@material-ui/core";
+import { makeStyles } from "@material-ui/core";
 import { useState, useEffect } from "react";
 import PostForm from "../../components/Post/PostForm";
-import Post from "../../components/Post/Post";
+import Posts from "./Posts.js";
 import { getPosts } from "../../components/Post/Api";
-import SwipeableImages from "../../components/Swipeable/SwipeableImages";
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
@@ -42,24 +35,7 @@ function UserPosts() {
   return (
     <>
       <PostForm />
-      <div className={classes.root}>
-        <Container maxWidth="md">
-          {posts ? (
-            <GridList cellHeight={300} className={classes.gridElement}>
-              {posts.map((post) => (
-                <GridListTile key={post._id}>
-                  <SwipeableImages images={post.images} />
-                  <Post post={post} />
-                  <GridListTileBar
-                    title={post.title}
-                    subtitle={<span>by: {post.author}</span>}
-                  />
-                </GridListTile>
-              ))}
-            </GridList>
-          ) : null}
-        </Container>
-      </div>
+      <Posts />
     </>
   );
 }
