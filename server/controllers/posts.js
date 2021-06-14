@@ -43,7 +43,6 @@ async function getImage(id) {
 
 export const getImagesByID = async (req, res) => {
   try {
-    console.log("here-getimagebyid");
     let gridFs = GridFS();
     let image = await getImage(req.params.id);
     if (
@@ -63,7 +62,6 @@ export const getImagesByID = async (req, res) => {
 export const getPosts = async (req, res) => {
   try {
     let posts = await PostPlaces.find();
-
     //get image ids
     res.status(200).json({
       posts,
@@ -92,7 +90,6 @@ export const getPostByID = async (req, res) => {
 };
 
 export const addPostImages = async (req, res, next) => {
-  console.log("here");
   try {
     let imageIds = [];
     let images = await req.files;

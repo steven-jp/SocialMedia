@@ -8,13 +8,15 @@ import multer from "multer";
 import * as crypto from "crypto";
 import GridFsStorage from "multer-gridfs-storage";
 import path from "path";
+import cookieParser from "cookie-parser";
 
 dotenv.config();
 const port = process.env.PORT || 5000;
 const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(cors());
+app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
+app.use(cookieParser());
 
 const CONNECTION = process.env.DB_CONNECTION;
 let gridFs;
@@ -42,7 +44,6 @@ mongoose.set("useFindAndModify", false);
 //     cb(null, file.originalname);
 //   },
 // });
-
 //Storage of files on mongo.
 const storage = new GridFsStorage({
   url: CONNECTION,
@@ -68,6 +69,8 @@ const uploads = multer({ storage: storage });
 
 //Routes
 app.use("/user", auth());
+const COOKIE_NAME = "Occassions-cookie";
+
 app.use("/posts", posts(uploads));
 
 export function GridFS() {

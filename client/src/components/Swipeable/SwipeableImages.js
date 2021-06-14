@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import { makeStyles, CardMedia } from "@material-ui/core";
 import Carousel from "react-material-ui-carousel";
 const useStyles = makeStyles((theme) => ({

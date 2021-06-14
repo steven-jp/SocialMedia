@@ -3,7 +3,6 @@ import {
   GridList,
   GridListTile,
   GridListTileBar,
-  IconButton,
   makeStyles,
 } from "@material-ui/core";
 import { useState, useEffect } from "react";
@@ -39,7 +38,7 @@ function UserPosts() {
   useEffect(() => {
     getPosts(setPosts);
   }, [setPosts]);
-  console.log(posts);
+
   return (
     <>
       <PostForm />

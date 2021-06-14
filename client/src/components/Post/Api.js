@@ -4,7 +4,7 @@ let URL = "http://localhost:5000";
 
 async function getImageByFilename(posts, setPosts, filename) {
   await axios
-    .get(URL + `/posts/image/${filename}`, {})
+    .get(URL + `/posts/image/${filename}`, { withCredentials: true })
     .then((res) => {
       // setPosts(res);
       console.log(res);
@@ -17,7 +17,7 @@ async function getImageByFilename(posts, setPosts, filename) {
 async function getImageByID(id) {
   return new Promise((resolve, reject) => {
     axios
-      .get(URL + `/posts/image/${id}`, {})
+      .get(URL + `/posts/image/${id}`, { withCredentials: true })
       .then((res) => {
         resolve(res.config.url);
       })
@@ -30,14 +30,18 @@ async function getImageByID(id) {
 async function getPosts(setPosts) {
   let posts = [];
   axios
-    .get(URL + "/posts", { responseType: "json" })
-    .then((res) => {
+    // .get(URL + "/posts", { responseType: "json" })
+    .get(URL + "/posts", { withCredentials: true })
+
+    .then((res, req) => {
+      console.log("c1 ", req);
       posts = res.data.posts;
     })
-    .then((res) => {
+    .then((res, req) => {
+      console.log("c2 ", req);
+
       let updatedPosts = [];
       let allPromises = [];
-      console.log(posts);
       posts.forEach((post) => {
         let currentPost = { ...post };
         let currentPromises = [];
@@ -68,12 +72,12 @@ async function getPosts(setPosts) {
     });
 }
 async function createPost(formData) {
-  console.log(...formData);
   axios
     .post(URL + "/posts", formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
+      withCredentials: true,
     })
     .then((res, req) => {
       console.log(res);

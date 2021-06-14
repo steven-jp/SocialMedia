@@ -1,7 +1,10 @@
 import User from "../models/user.js";
-import mongoose from "mongoose";
 import dotenv from "dotenv";
 import * as crypto from "crypto";
+import jwt from "jsonwebtoken";
+
+const COOKIE_MAX_AGE = 86400;
+const COOKIE_NAME = "Occassions-cookie";
 
 export const loginUser = async (req, res) => {
   try {
@@ -18,14 +21,17 @@ export const loginUser = async (req, res) => {
     if (validEmail) {
       let hashedPass = hashPassword(userAttributes.password);
       if (validEmail.password === hashedPass) {
-        res.status(200).json({ message: "Successful login" });
+        createTokenAndCookie(res, req, validEmail._id);
+        res
+          .status(200)
+          .json({ message: "Successful login", id: validEmail._id });
         return;
       }
       res.status(400).json({ error: "Email or password is incorrect" });
       return;
     }
 
-    res.status(200).json({ messsage: "Success!!" });
+    res.status(400).json({ error: "Email was not found" });
   } catch (error) {
     res.status(400).json({ error: "Error getting user" });
   }
@@ -81,15 +87,17 @@ export const createUser = async (req, res) => {
       email: userAttributes.email,
       password: hashedPass,
     });
-
     //save to db
     try {
       let currentUser = await user.save();
-      res.status(200).json({ message: "Successfully created user" });
+      createTokenAndCookie(res, req, user._id);
+      res
+        .status(200)
+        .json({ message: "Successfully created user", id: user._id });
     } catch (error) {
       //validators check
       let errMsg = updateErrorMessage(error);
-      res.status(400).json(errorMsg);
+      res.status(400).json(errMsg);
     }
   } catch (error) {
     res.status(400).json({ error: "Error creating user" });
@@ -106,4 +114,19 @@ function updateErrorMessage(err) {
     return result;
   }
   return err;
+}
+
+//Creates a token and cookie valid for 1 day
+function createTokenAndCookie(res, req, id) {
+  dotenv.config();
+  let token = jwt.sign({ id }, process.env.COOKIE_SECRET, {
+    expiresIn: COOKIE_MAX_AGE,
+  });
+  res.cookie(COOKIE_NAME, token, {
+    httpOnly: process.env.PROD_ENV === true ? true : false,
+    secure: process.env.PROD_ENV === true ? true : false,
+    maxAge: COOKIE_MAX_AGE,
+  });
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+  res.setHeader("Access-Control-Allow-Origin", req.headers.origin);
 }
