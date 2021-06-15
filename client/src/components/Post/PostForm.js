@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { createPost } from "../../components/Post/Api";
 import {
   makeStyles,
@@ -9,6 +9,7 @@ import {
   Container,
 } from "@material-ui/core";
 import SwipeableImages from "../Swipeable/SwipeableImages.js";
+import { isLoggedIn } from "../Authentication/Api";
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: "rgba(219, 213, 212,.5)",
@@ -30,8 +31,23 @@ const PostForm = () => {
   const classes = useStyles();
   const [postAttributes, setPostAttributes] = useState({
     title: "",
+    author: "",
     images: [],
   });
+  const [userData, setUserData] = useState(null);
+
+  //get user information.
+  useEffect(() => {
+    isLoggedIn(setUserData);
+  }, [setUserData]);
+
+  //Update postAttributes when userData contains a valid object
+  useEffect(() => {
+    if (userData) {
+      updatePostAttributes("author", userData.username);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userData]);
 
   const [uploadImages, setUploadImages] = useState([]);
   function changeFormHandler(e) {
@@ -40,7 +56,11 @@ const PostForm = () => {
 
   function submitFormHandler(e) {
     e.preventDefault();
-    if (postAttributes.title.length > 0 && uploadImages.length > 0) {
+    if (
+      userData &&
+      postAttributes.title.length > 0 &&
+      uploadImages.length > 0
+    ) {
       let formData = new FormData();
       uploadImages.forEach((img) => {
         formData.append("image", img);

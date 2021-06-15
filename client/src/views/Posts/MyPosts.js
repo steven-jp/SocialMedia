@@ -23,14 +23,14 @@ const useStyles = makeStyles((theme) => ({
 
 //add auto refreshing of posts.
 
-function UserPosts() {
-  const classes = useStyles();
+function MyPosts() {
+  // const classes = useStyles();
 
-  const [posts, setPosts] = useState([]);
+  // const [posts, setPosts] = useState([]);
 
-  useEffect(() => {
-    getPosts(setPosts);
-  }, [setPosts]);
+  // useEffect(() => {
+  //   getPosts(setPosts);
+  // }, [setPosts]);
 
   return (
     <>
@@ -40,4 +40,4 @@ function UserPosts() {
   );
 }
 
-export default UserPosts;
+export default MyPosts;

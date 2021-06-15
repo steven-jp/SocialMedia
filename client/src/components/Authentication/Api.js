@@ -47,10 +47,11 @@ async function loginUser(user) {
     });
 }
 
-async function isLoggedIn(setUserData) {
+function isLoggedIn(setUserData) {
   axios
     .get(URL + "/user/login", { withCredentials: true, credentials: "include" })
     .then((res) => {
+      console.log("logged in success? ", res);
       if (res.data) {
         // console.log(res.data);
         setUserData(res.data);
