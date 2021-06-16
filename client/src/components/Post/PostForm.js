@@ -32,8 +32,8 @@ const PostForm = () => {
   const [postAttributes, setPostAttributes] = useState({
     title: "",
     author: "",
-    images: [],
     userId: "",
+    images: [],
   });
   const [userData, setUserData] = useState(null);
 
@@ -46,8 +46,11 @@ const PostForm = () => {
   useEffect(() => {
     if (userData) {
       updatePostAttributes("author", userData.username);
-      // updatePostAttributes("userId", userData.userId);
-      console.log(postAttributes);
+      setPostAttributes({
+        ...postAttributes,
+        author: userData.username,
+        userId: userData.userId,
+      });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userData]);

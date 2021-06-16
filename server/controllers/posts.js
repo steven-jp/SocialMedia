@@ -62,8 +62,6 @@ export const getImagesByID = async (req, res) => {
 export const getPosts = async (req, res) => {
   try {
     let posts = await PostPlaces.find();
-    //get image ids
-    console.log(posts);
     res.status(200).json({
       posts,
     });
@@ -76,7 +74,6 @@ export const getPostsByUserIDs = async (req, res) => {
     let posts = await PostPlaces.findById({
       userId: { $in: req.params.userIds },
     });
-    //get image ids
     res.status(200).json({
       posts,
     });

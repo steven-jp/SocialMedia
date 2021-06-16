@@ -24,11 +24,12 @@ function App() {
         <NavBar />
         <Switch>
           <Route path="/" exact component={Home} />
-          <Route path="/posts/:author/:id" component={Post} />
-          <Route exact path="/posts">
-            {/* {userData ? <MyPosts /> : <Redirect to="/" />} */}
-            <MyPosts />
-          </Route>
+          {userData ? (
+            <>
+              <Route path="/posts/:author/:id" component={Post} />
+              <Route exact path="/posts" component={MyPosts} />
+            </>
+          ) : null}
           <Route path="/login" component={Login} />
           <Route component={NotFound} />
         </Switch>
