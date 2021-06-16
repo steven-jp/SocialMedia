@@ -118,9 +118,11 @@ export const isLoggedIn = async (req, res) => {
           if (err) {
             res.status(400).json({ error: "User is not logged in" });
           } else {
-            res
-              .status(200)
-              .json({ email: user.email, username: user.username });
+            res.status(200).json({
+              email: user.email,
+              username: user.username,
+              userId: user._id,
+            });
           }
         });
       }

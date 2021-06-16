@@ -51,7 +51,6 @@ function isLoggedIn(setUserData) {
   axios
     .get(URL + "/user/login", { withCredentials: true, credentials: "include" })
     .then((res) => {
-      console.log("logged in success? ", res);
       if (res.data) {
         // console.log(res.data);
         setUserData(res.data);

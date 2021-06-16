@@ -6,9 +6,10 @@ import {
   makeStyles,
 } from "@material-ui/core";
 import { useState, useEffect } from "react";
-import Post from "../../components/Post/Post";
 import { getPosts } from "../../components/Post/Api";
 import SwipeableImages from "../../components/Swipeable/SwipeableImages";
+import { Link } from "react-router-dom";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
@@ -47,11 +48,25 @@ function UserPosts() {
               {posts.map((post) => (
                 <GridListTile key={post._id}>
                   <SwipeableImages images={post.images} />
-                  <Post post={post} />
-                  <GridListTileBar
-                    title={post.title}
-                    subtitle={<span>by: {post.author}</span>}
-                  />
+                  {/* <Post post={post} /> */}
+                  <Link
+                    to={{
+                      pathname: `/posts/${post.author}/${post._id}`,
+                      state: { post: post },
+                    }}
+                  >
+                    {/* <Route
+                      path="posts/:author/:id"
+                      render={(props) => {
+                        return <Post post={post} {...props} />;
+                      }}
+                    /> */}
+
+                    <GridListTileBar
+                      title={post.title}
+                      subtitle={<span>by: {post.author}</span>}
+                    />
+                  </Link>
                 </GridListTile>
               ))}
             </GridList>

@@ -63,6 +63,7 @@ export const getPosts = async (req, res) => {
   try {
     let posts = await PostPlaces.find();
     //get image ids
+    console.log(posts);
     res.status(200).json({
       posts,
     });
@@ -70,25 +71,19 @@ export const getPosts = async (req, res) => {
     res.status(400).json({ error: "Error getting posts" });
   }
 };
-export const getPostByID = async (req, res) => {
-  let imagesIds = [];
-  let posts = await PostPlaces.findById(req.params.id);
-
-  //get image ids
-  imagesIds = posts.images;
-  let gridFs = GridFS();
-  gridFs.find({ _id: { $in: imagesIds } }).toArray((err, files) => {
-    if (!files[0] || files.length === 0) {
-      return res.status(200).json({
-        message: "This file doesn't exist",
-      });
-    }
-    res.status(200).json({
-      file: files[0],
+export const getPostsByUserIDs = async (req, res) => {
+  try {
+    let posts = await PostPlaces.findById({
+      userId: { $in: req.params.userIds },
     });
-  });
+    //get image ids
+    res.status(200).json({
+      posts,
+    });
+  } catch (error) {
+    res.status(400).json({ error: "Error getting posts" });
+  }
 };
-
 export const addPostImages = async (req, res, next) => {
   try {
     let imageIds = [];

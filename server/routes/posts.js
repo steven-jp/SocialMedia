@@ -2,7 +2,7 @@ import express from "express";
 import {
   getPosts,
   createPosts,
-  getPostByID,
+  getPostsByUserIDs,
   updatePost,
   deletePost,
   addPostImages,
@@ -20,7 +20,7 @@ export default function posts(uploads) {
   //Client calls getPosts which calls getImagesByID per image.
   router.get("/image/:id", verify, getImagesByID);
   router.get("/", verify, getPosts);
-  // router.get("/:id", getPostByID);
+  router.get("/:ids", getPostsByUserIDs);
 
   //These call eachother
   router.post("/", verify, uploads.array("image"), addPostImages);

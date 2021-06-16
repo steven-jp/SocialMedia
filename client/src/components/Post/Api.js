@@ -27,6 +27,53 @@ async function getImageByID(id) {
   });
 }
 
+async function getPostsByUserIds(setPosts, userIds) {
+  let posts = [];
+  axios
+    // .get(URL + "/posts", { responseType: "json" })
+    .get(URL + "/posts", {
+      withCredentials: true,
+      params: {
+        userIds: userIds,
+      },
+    })
+
+    .then((res, req) => {
+      posts = res.data.posts;
+    })
+    .then((res, req) => {
+      let updatedPosts = [];
+      let allPromises = [];
+      posts.forEach((post) => {
+        let currentPost = { ...post };
+        let currentPromises = [];
+
+        //Fetch images paths from server
+        post.images.forEach((img) => {
+          let cur = getImageByID([img]);
+          currentPromises.push(cur);
+          allPromises.push(cur);
+        });
+
+        //ensure all images for current post have been fetched.
+        currentPost.images = [];
+        Promise.all(currentPromises).then(function (results) {
+          currentPost.images = results;
+        });
+        updatedPosts.push(currentPost);
+      });
+
+      //update posts if all promises have completed since for each
+      //doesn't wait on promises.
+      Promise.all(allPromises).then(() => {
+        setPosts(updatedPosts);
+      });
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+}
+
 async function getPosts(setPosts) {
   let posts = [];
   axios
@@ -84,4 +131,10 @@ async function createPost(formData) {
     });
 }
 
-export { getPosts, createPost, getImageByFilename, getImageByID };
+export {
+  getPosts,
+  createPost,
+  getImageByFilename,
+  getImageByID,
+  getPostsByUserIds,
+};

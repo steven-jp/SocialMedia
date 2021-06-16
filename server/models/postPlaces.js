@@ -5,7 +5,7 @@ const ObjectId = mongoose.Schema.Types.ObjectId;
 const placesSchema = mongoose.Schema({
   title: String,
   author: String,
-  authorId: String,
+  userId: String,
   postId: String,
   likes: Number,
   images: [ObjectId],

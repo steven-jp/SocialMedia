@@ -5,13 +5,9 @@ import Home from "./views/Home/Home";
 import NotFound from "./views/NotFound/NotFound";
 import { isLoggedIn } from "../src/components/Authentication/Api";
 import NavBar from "../src/NavBar";
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  Redirect,
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { useState, useEffect } from "react";
+import Post from "./components/Post/Post";
 function App() {
   const [userData, setUserData] = useState(null);
 
@@ -20,6 +16,7 @@ function App() {
   }, [setUserData]);
 
   //Fix bug with redirect. When pasting url with /posts, goes to home.
+  // Only allow certain images sent. Gifs cause errors
 
   return (
     <>
@@ -27,8 +24,10 @@ function App() {
         <NavBar />
         <Switch>
           <Route path="/" exact component={Home} />
-          <Route path="/posts">
-            {userData ? <MyPosts /> : <Redirect to="/" />}
+          <Route path="/posts/:author/:id" component={Post} />
+          <Route exact path="/posts">
+            {/* {userData ? <MyPosts /> : <Redirect to="/" />} */}
+            <MyPosts />
           </Route>
           <Route path="/login" component={Login} />
           <Route component={NotFound} />
