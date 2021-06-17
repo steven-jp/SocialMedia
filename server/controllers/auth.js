@@ -132,6 +132,18 @@ export const isLoggedIn = async (req, res) => {
   }
 };
 
+export const getUserByName = async (req, res) => {
+  let author = req.query.author;
+  let user = await User.findOne({ username: author });
+  if (!user) {
+    res.status(400).json({ error: "User is not valid" });
+    return;
+  } else {
+    res.status(200).json({ id: user._id });
+    return;
+  }
+};
+
 // update error message if a part of mongo validators.
 function updateErrorMessage(err) {
   if (err.message.includes("Users validation failed: ")) {

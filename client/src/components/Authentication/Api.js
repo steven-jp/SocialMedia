@@ -52,13 +52,32 @@ function isLoggedIn(setUserData) {
     .get(URL + "/user/login", { withCredentials: true, credentials: "include" })
     .then((res) => {
       if (res.data) {
-        // console.log(res.data);
         setUserData(res.data);
       }
     })
     .catch((error) => {
-      // console.log(error);
+      console.log(error);
     });
 }
 
-export { createUser, loginUser, isLoggedIn };
+function getUserByName(author, setUserData) {
+  axios
+    .get(URL + "/user", {
+      withCredentials: true,
+      credentials: "include",
+      params: {
+        author: author,
+      },
+    })
+    .then((res) => {
+      if (res.data) {
+        console.log(res.data);
+        setUserData(res.data);
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+}
+
+export { createUser, loginUser, isLoggedIn, getUserByName };

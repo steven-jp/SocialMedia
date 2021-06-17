@@ -8,6 +8,7 @@ import NavBar from "../src/NavBar";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Post from "./components/Post/Post";
+import Profile from "./views/Profile/Profile";
 function App() {
   const [userData, setUserData] = useState(null);
 
@@ -27,6 +28,7 @@ function App() {
           {userData ? (
             <>
               <Route path="/posts/:author/:id" component={Post} />
+              <Route path="/user/:author" component={Profile} />
               <Route exact path="/posts" component={MyPosts} />
             </>
           ) : null}

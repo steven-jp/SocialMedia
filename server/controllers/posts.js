@@ -75,7 +75,6 @@ export const getPostsByUserIDs = async (req, res) => {
     let posts = await PostPlaces.find({
       userId: { $in: userIds },
     });
-    console.log("p ", posts);
     res.status(200).json({
       posts,
     });

@@ -57,23 +57,24 @@ function Posts() {
               {posts.map((post) => (
                 <GridListTile key={post._id}>
                   <SwipeableImages images={post.images} />
-                  {/* <Post post={post} /> */}
                   <Link
                     to={{
                       pathname: `/posts/${post.author}/${post._id}`,
                       state: { post: post },
                     }}
                   >
-                    {/* <Route
-                      path="posts/:author/:id"
-                      render={(props) => {
-                        return <Post post={post} {...props} />;
-                      }}
-                    /> */}
-
                     <GridListTileBar
                       title={post.title}
-                      subtitle={<span>by: {post.author}</span>}
+                      subtitle={
+                        <Link
+                          to={{
+                            pathname: `/user/${post.author}`,
+                            state: { author: post.author },
+                          }}
+                        >
+                          by: {post.author}
+                        </Link>
+                      }
                     />
                   </Link>
                 </GridListTile>
