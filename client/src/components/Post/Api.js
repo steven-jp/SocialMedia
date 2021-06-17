@@ -29,6 +29,7 @@ async function getImageByID(id) {
 
 async function getPostsByUserIds(setPosts, userIds) {
   let posts = [];
+  console.log("get posts user ids ! client");
   axios
     // .get(URL + "/posts", { responseType: "json" })
     .get(URL + "/posts", {
@@ -37,7 +38,6 @@ async function getPostsByUserIds(setPosts, userIds) {
         userIds: userIds,
       },
     })
-
     .then((res, req) => {
       posts = res.data.posts;
     })

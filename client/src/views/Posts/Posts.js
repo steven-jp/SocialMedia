@@ -6,9 +6,10 @@ import {
   makeStyles,
 } from "@material-ui/core";
 import { useState, useEffect } from "react";
-import { getPosts } from "../../components/Post/Api";
+import { getPosts, getPostsByUserIds } from "../../components/Post/Api";
 import SwipeableImages from "../../components/Swipeable/SwipeableImages";
 import { Link } from "react-router-dom";
+import { isLoggedIn } from "../../components/Authentication/Api";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -30,14 +31,22 @@ const useStyles = makeStyles((theme) => ({
 
 //add auto refreshing of posts.
 
-function UserPosts() {
+function Posts() {
   const classes = useStyles();
 
   const [posts, setPosts] = useState([]);
+  const [userData, setUserData] = useState(null);
 
   useEffect(() => {
-    getPosts(setPosts);
-  }, [setPosts]);
+    if (userData) {
+      // getPosts(setPosts);
+      getPostsByUserIds(setPosts, userData.userId);
+    }
+  }, [setPosts, userData]);
+
+  useEffect(() => {
+    isLoggedIn(setUserData);
+  }, [setUserData]);
 
   return (
     <>
@@ -77,4 +86,4 @@ function UserPosts() {
   );
 }
 
-export default UserPosts;
+export default Posts;

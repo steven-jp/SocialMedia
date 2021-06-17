@@ -70,10 +70,12 @@ export const getPosts = async (req, res) => {
   }
 };
 export const getPostsByUserIDs = async (req, res) => {
+  let userIds = req.query.userIds;
   try {
-    let posts = await PostPlaces.findById({
-      userId: { $in: req.params.userIds },
+    let posts = await PostPlaces.find({
+      userId: { $in: userIds },
     });
+    console.log("p ", posts);
     res.status(200).json({
       posts,
     });

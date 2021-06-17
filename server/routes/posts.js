@@ -19,8 +19,9 @@ export default function posts(uploads) {
 
   //Client calls getPosts which calls getImagesByID per image.
   router.get("/image/:id", verify, getImagesByID);
-  router.get("/", verify, getPosts);
-  router.get("/:ids", getPostsByUserIDs);
+  // router.get("/", verify, getPosts);
+  // router.get("/:userIds", verify, getPostsByUserIDs);
+  router.get("/", verify, getPostsByUserIDs);
 
   //These call eachother
   router.post("/", verify, uploads.array("image"), addPostImages);
