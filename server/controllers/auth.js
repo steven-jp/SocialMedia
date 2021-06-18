@@ -139,7 +139,7 @@ export const getUserByName = async (req, res) => {
     res.status(400).json({ error: "User is not valid" });
     return;
   } else {
-    res.status(200).json({ id: user._id });
+    res.status(200).json({ userId: user._id });
     return;
   }
 };

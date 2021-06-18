@@ -6,10 +6,9 @@ import {
   makeStyles,
 } from "@material-ui/core";
 import { useState, useEffect } from "react";
-import { getPosts, getPostsByUserIds } from "../../components/Post/Api";
+import { getPostsByUserIds } from "../../components/Post/Api";
 import SwipeableImages from "../../components/Swipeable/SwipeableImages";
 import { Link } from "react-router-dom";
-import { isLoggedIn } from "../../components/Authentication/Api";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,22 +30,14 @@ const useStyles = makeStyles((theme) => ({
 
 //add auto refreshing of posts.
 
-function Posts() {
+function Posts({ ids }) {
   const classes = useStyles();
 
   const [posts, setPosts] = useState([]);
-  const [userData, setUserData] = useState(null);
 
   useEffect(() => {
-    if (userData) {
-      // getPosts(setPosts);
-      getPostsByUserIds(setPosts, userData.userId);
-    }
-  }, [setPosts, userData]);
-
-  useEffect(() => {
-    isLoggedIn(setUserData);
-  }, [setUserData]);
+    getPostsByUserIds(setPosts, ids);
+  }, [setPosts]);
 
   return (
     <>
@@ -65,6 +56,7 @@ function Posts() {
                   >
                     <GridListTileBar
                       title={post.title}
+                      component={"span"}
                       subtitle={
                         <Link
                           to={{
