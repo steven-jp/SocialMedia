@@ -157,9 +157,10 @@ function updateErrorMessage(err) {
   return err;
 }
 export const updateUserById = async (req, res) => {
+  console.log(req.body);
   let { nModified } = await User.updateOne(
     { _id: req.body.id },
-    { $addToSet: { bb: req.body.attributes.friend } },
+    { $addToSet: { friends: req.body.attributes.friend } },
   );
   if (nModified === 0) {
     res.status(400).json({ error: "No attributes were updated" });

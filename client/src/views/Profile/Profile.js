@@ -3,21 +3,28 @@ import { getUserByName } from "../../components/Authentication/Api";
 import Posts from "../../views/Posts/Posts";
 import { Button } from "@material-ui/core";
 import { updateUserById } from "../../components/Authentication/Api";
+import { isLoggedIn } from "../../components/Authentication/Api";
 
 function Profile(props) {
   const { author } = props.location.state;
   const [userData, setUserData] = useState(null);
+  const [profileData, setProfileData] = useState(null);
 
   useEffect(() => {
-    getUserByName(author, setUserData);
+    getUserByName(author, setProfileData);
     // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [setProfileData]);
+
+  useEffect(() => {
+    isLoggedIn(setUserData);
   }, [setUserData]);
 
   function updateUser(e) {
-    // setUserData({ ...userData, friends });
-    updateUserById(userData.userId, { friend: author });
+    if (userData && profileData) {
+      updateUserById(userData.userId, { friend: profileData.userId });
+    }
   }
-  console.log(userData);
+
   return (
     <div>
       <h1>User Profile</h1>
