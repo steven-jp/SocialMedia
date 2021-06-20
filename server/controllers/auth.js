@@ -158,6 +158,10 @@ function updateErrorMessage(err) {
 }
 export const updateUserById = async (req, res) => {
   console.log(req.body);
+  if (req.body.id === req.body.attributes.friend) {
+    res.status(400).json({ error: "User cannot add themselves" });
+    return;
+  }
   let { nModified } = await User.updateOne(
     { _id: req.body.id },
     { $addToSet: { friends: req.body.attributes.friend } },
