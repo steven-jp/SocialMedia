@@ -2,7 +2,6 @@ import React from "react";
 import SwipeableImages from "../Swipeable/SwipeableImages";
 const Post = (props) => {
   const { post } = props.location.state;
-  console.log(post);
   return (
     <div>
       <h1>Title: {post.title}</h1>

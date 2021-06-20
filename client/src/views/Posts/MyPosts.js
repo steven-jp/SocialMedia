@@ -9,6 +9,7 @@ import { isLoggedIn } from "../../components/Authentication/Api";
 
 function MyPosts() {
   const [userData, setUserData] = useState(null);
+
   useEffect(() => {
     isLoggedIn(setUserData);
   }, [setUserData]);

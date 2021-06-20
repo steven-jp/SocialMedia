@@ -122,6 +122,7 @@ export const isLoggedIn = async (req, res) => {
               email: user.email,
               username: user.username,
               userId: user._id,
+              friends: user.friends,
             });
           }
         });
@@ -139,7 +140,7 @@ export const getUserByName = async (req, res) => {
     res.status(400).json({ error: "User is not valid" });
     return;
   } else {
-    res.status(200).json({ userId: user._id });
+    res.status(200).json({ userId: user._id, friends: user.friends });
     return;
   }
 };
@@ -155,6 +156,17 @@ function updateErrorMessage(err) {
   }
   return err;
 }
+export const updateUserById = async (req, res) => {
+  let { nModified } = await User.updateOne(
+    { _id: req.body.id },
+    { $addToSet: { bb: req.body.attributes.friend } },
+  );
+  if (nModified === 0) {
+    res.status(400).json({ error: "No attributes were updated" });
+  } else {
+    res.status(200).json({ message: "Successfully updated user" });
+  }
+};
 
 //Creates a token and cookie valid for 1 day
 function createTokenAndCookie(res, req, id) {

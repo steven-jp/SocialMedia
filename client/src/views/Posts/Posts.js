@@ -37,6 +37,7 @@ function Posts({ ids }) {
 
   useEffect(() => {
     getPostsByUserIds(setPosts, ids);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setPosts]);
 
   return (
@@ -48,27 +49,33 @@ function Posts({ ids }) {
               {posts.map((post) => (
                 <GridListTile key={post._id}>
                   <SwipeableImages images={post.images} />
-                  <Link
-                    to={{
-                      pathname: `/posts/${post.author}/${post._id}`,
-                      state: { post: post },
-                    }}
-                  >
-                    <GridListTileBar
-                      title={post.title}
-                      component={"span"}
-                      subtitle={
+
+                  <GridListTileBar
+                    title={post.title}
+                    component={"span"}
+                    subtitle={
+                      <div>
+                        <label>By: </label>
                         <Link
                           to={{
                             pathname: `/user/${post.author}`,
                             state: { author: post.author },
                           }}
                         >
-                          by: {post.author}
+                          {post.author}
                         </Link>
-                      }
-                    />
-                  </Link>
+                        <br />
+                        <Link
+                          to={{
+                            pathname: `/posts/${post.author}/${post._id}`,
+                            state: { post: post },
+                          }}
+                        >
+                          View Post
+                        </Link>
+                      </div>
+                    }
+                  />
                 </GridListTile>
               ))}
             </GridList>

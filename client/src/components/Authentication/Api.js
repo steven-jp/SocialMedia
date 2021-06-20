@@ -78,5 +78,23 @@ function getUserByName(author, setUserData) {
       console.log(error);
     });
 }
+async function updateUserById(userId, attributes) {
+  console.log("client ", userId, " ", attributes);
+  axios
+    .post(
+      URL + "/user/update",
+      {
+        id: userId,
+        attributes: attributes,
+      },
+      { withCredentials: true, credentials: "include" },
+    )
+    .then((res) => {
+      console.log(res);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+}
 
-export { createUser, loginUser, isLoggedIn, getUserByName };
+export { createUser, loginUser, isLoggedIn, getUserByName, updateUserById };

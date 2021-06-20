@@ -16,8 +16,11 @@ function App() {
     isLoggedIn(setUserData);
   }, [setUserData]);
 
-  //Fix bug with redirect. When pasting url with /posts, goes to home.
-  // Only allow certain images sent. Gifs cause errors
+  /*BUGS =======================:
+   - Redirect. When pasting url with /posts, goes to home.
+   - Only allow certain images sent. Gifs cause errors 
+   - controlled/uncontrolled props location error.
+   */
 
   return (
     <>
