@@ -6,7 +6,7 @@ import { updateUserById } from "../../components/Authentication/Api";
 import { isLoggedIn } from "../../components/Authentication/Api";
 
 function Profile(props) {
-  const { author } = props.location.state;
+  const { author } = props.match.params;
   const [userData, setUserData] = useState(null);
   const [profileData, setProfileData] = useState(null);
 
@@ -29,7 +29,7 @@ function Profile(props) {
     <div>
       <h1>User Profile</h1>
       <h2>Author: {author}</h2>
-      {userData ? <Posts ids={userData.userId} /> : null}
+      {profileData ? <Posts ids={profileData.userId} /> : null}
       <Button type="friends" variant="contained" onClick={updateUser}>
         Add friend
       </Button>

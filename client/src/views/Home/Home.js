@@ -9,7 +9,6 @@ const Home = () => {
   useEffect(() => {
     isLoggedIn(setUserData);
   }, [setUserData]);
-  console.log(userData);
   return (
     <>
       <h1>Home !!!!</h1>

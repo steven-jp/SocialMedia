@@ -93,7 +93,6 @@ function getUserByName(author, setUserData) {
     });
 }
 async function updateUserById(userId, attributes) {
-  console.log("client ", userId, " ", attributes);
   axios
     .post(
       URL + "/user/update",

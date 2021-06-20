@@ -6,11 +6,9 @@ const placesSchema = mongoose.Schema({
   title: String,
   author: String,
   userId: String,
-  postId: String,
   likes: Number,
   images: [ObjectId],
   tags: [String],
-  businessIDs: [String],
   createdAt: { type: Date, default: Date.now },
   destroy: String,
 });

@@ -29,7 +29,7 @@ const NavBar = () => {
 
   function logoutHandler() {
     logoutUser();
-    window.location.reload();
+    window.location.assign("/login");
   }
   return (
     <nav className={classes.nav}>
