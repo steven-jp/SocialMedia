@@ -1,7 +1,7 @@
 import { makeStyles } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { isLoggedIn } from "./components/Authentication/Api";
+import { isLoggedIn, logoutUser } from "./components/Authentication/Api";
 
 const useStyles = makeStyles((theme) => ({
   nav: {
@@ -27,6 +27,10 @@ const NavBar = () => {
     isLoggedIn(setUserData);
   }, [setUserData]);
 
+  function logoutHandler() {
+    logoutUser();
+    window.location.reload();
+  }
   return (
     <nav className={classes.nav}>
       <Link className={classes.links} to="/">
@@ -37,9 +41,15 @@ const NavBar = () => {
           My posts
         </Link>
       ) : null}
-      <Link className={classes.links} to="/login">
-        Login
-      </Link>
+      {userData ? (
+        <Link className={classes.links} to="/" onClick={logoutHandler}>
+          Logout
+        </Link>
+      ) : (
+        <Link className={classes.links} to="/login">
+          Login
+        </Link>
+      )}
     </nav>
   );
 };

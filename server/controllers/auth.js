@@ -37,6 +37,13 @@ export const loginUser = async (req, res) => {
   }
 };
 
+export const logoutUser = async (req, res) => {
+  res.cookie(COOKIE_NAME, "", {
+    maxAge: -1,
+  });
+  res.status(200).json({ message: "User logged out" });
+};
+
 function hashPassword(password) {
   dotenv.config();
 
@@ -182,7 +189,7 @@ function createTokenAndCookie(res, req, id) {
   res.cookie(COOKIE_NAME, token, {
     httpOnly: process.env.PROD_ENV === true ? true : false,
     secure: process.env.PROD_ENV === true ? true : false,
-    maxAge: COOKIE_MAX_AGE,
+    maxAge: COOKIE_MAX_AGE * 1000,
   });
   res.setHeader("Access-Control-Allow-Credentials", "true");
   res.setHeader("Access-Control-Allow-Origin", req.headers.origin);

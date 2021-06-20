@@ -46,6 +46,20 @@ async function loginUser(user) {
     });
 }
 
+async function logoutUser() {
+  axios
+    .get(URL + "/user/logout", {
+      withCredentials: true,
+      credentials: "include",
+    })
+    .then((res) => {
+      console.log(res);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+}
+
 function isLoggedIn(setUserData) {
   axios
     .get(URL + "/user/login", { withCredentials: true, credentials: "include" })
@@ -97,4 +111,11 @@ async function updateUserById(userId, attributes) {
     });
 }
 
-export { createUser, loginUser, isLoggedIn, getUserByName, updateUserById };
+export {
+  createUser,
+  loginUser,
+  logoutUser,
+  isLoggedIn,
+  getUserByName,
+  updateUserById,
+};
