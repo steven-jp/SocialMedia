@@ -23,11 +23,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-//Add authnetication. If user is this user we'll add a postform where they can post.
-//if not the user we only display their posts.
-
 //add functionality for a user to be able to delete their own posts
-
 //add auto refreshing of posts.
 
 function Posts({ ids }) {

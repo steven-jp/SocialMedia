@@ -2,6 +2,7 @@ import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 const COOKIE_NAME = "Occassions-cookie";
 
+//verify user has required access
 export const verify = (req, res, next) => {
   dotenv.config();
   const token = req.cookies[COOKIE_NAME];

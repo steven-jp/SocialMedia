@@ -2,11 +2,11 @@ import axios from "axios";
 
 let URL = "http://localhost:5000";
 
+//Open image stream by filename
 async function getImageByFilename(posts, setPosts, filename) {
   await axios
     .get(URL + `/posts/image/${filename}`, { withCredentials: true })
     .then((res) => {
-      // setPosts(res);
       console.log(res);
     })
     .catch((error) => {
@@ -14,6 +14,7 @@ async function getImageByFilename(posts, setPosts, filename) {
     });
 }
 
+//Open image stream by id
 async function getImageByID(id) {
   return new Promise((resolve, reject) => {
     axios
@@ -27,10 +28,10 @@ async function getImageByID(id) {
   });
 }
 
+//Get all the posts for a given user by providing id
 async function getPostsByUserIds(setPosts, userIds) {
   let posts = [];
   axios
-    // .get(URL + "/posts", { responseType: "json" })
     .get(URL + "/posts", {
       withCredentials: true,
       params: {
@@ -73,10 +74,10 @@ async function getPostsByUserIds(setPosts, userIds) {
     });
 }
 
+//get posts if userid isn't provided.
 async function getPosts(setPosts) {
   let posts = [];
   axios
-    // .get(URL + "/posts", { responseType: "json" })
     .get(URL + "/posts", { withCredentials: true })
 
     .then((res, req) => {
@@ -114,6 +115,8 @@ async function getPosts(setPosts) {
       console.log(error);
     });
 }
+
+//creates a post for a given user
 async function createPost(formData) {
   axios
     .post(URL + "/posts", formData, {

@@ -17,7 +17,6 @@ function App() {
   }, [setUserData]);
 
   /*BUGS =======================:
-   - Redirect. When pasting url with /posts, goes to home.
    - Only allow certain images sent. Gifs cause errors 
    - controlled/uncontrolled props location error.
    */

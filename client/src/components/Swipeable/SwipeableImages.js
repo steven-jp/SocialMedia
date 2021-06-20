@@ -27,7 +27,6 @@ const SwipeableImages = ({ images }) => {
           autoPlay={false}
           navButtonsAlwaysVisible={true}
           animation="slide"
-          // cycleNavigation={false}
         >
           {blobImgs.map((img, id) => {
             return (

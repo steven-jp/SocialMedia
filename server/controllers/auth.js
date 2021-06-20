@@ -6,6 +6,7 @@ import jwt from "jsonwebtoken";
 const COOKIE_MAX_AGE = 86400;
 const COOKIE_NAME = "Occassions-cookie";
 
+//login a user
 export const loginUser = async (req, res) => {
   try {
     let userAttributes = req.body;
@@ -37,6 +38,7 @@ export const loginUser = async (req, res) => {
   }
 };
 
+//logout a user
 export const logoutUser = async (req, res) => {
   res.cookie(COOKIE_NAME, "", {
     maxAge: -1,
@@ -52,6 +54,7 @@ function hashPassword(password) {
     .toString("hex");
 }
 
+//creates a user
 export const createUser = async (req, res) => {
   let userAttributes = req.body;
 
@@ -111,6 +114,7 @@ export const createUser = async (req, res) => {
   }
 };
 
+//check if user is logged in
 export const isLoggedIn = async (req, res) => {
   dotenv.config();
 
@@ -140,6 +144,7 @@ export const isLoggedIn = async (req, res) => {
   }
 };
 
+//get a username by userid
 export const getUserByName = async (req, res) => {
   let author = req.query.author;
   let user = await User.findOne({ username: author });
@@ -163,6 +168,7 @@ function updateErrorMessage(err) {
   }
   return err;
 }
+//Add to user by user id
 export const updateUserById = async (req, res) => {
   if (req.body.id === req.body.attributes.friend) {
     res.status(400).json({ error: "User cannot add themselves" });

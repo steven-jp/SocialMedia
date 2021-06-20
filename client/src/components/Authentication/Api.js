@@ -73,6 +73,7 @@ function isLoggedIn(setUserData) {
     });
 }
 
+//Get a user id by usename
 function getUserByName(author, setUserData) {
   axios
     .get(URL + "/user", {
@@ -92,6 +93,8 @@ function getUserByName(author, setUserData) {
       console.log(error);
     });
 }
+
+//update a users attributes by their id
 async function updateUserById(userId, attributes) {
   axios
     .post(

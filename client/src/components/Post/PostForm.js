@@ -80,6 +80,7 @@ const PostForm = () => {
     setPostAttributes({ ...postAttributes, [name]: value });
   }
 
+  //Call this when image is uploaded.
   function onImageChange(e) {
     if (e.target.files && e.target.files[0]) {
       let images = [];
@@ -103,7 +104,6 @@ const PostForm = () => {
       autoComplete="off"
     >
       <Container maxWidth="md">
-        {/* <Grid container spacing={1} direction="row"> */}
         <GridList cols={2} className={classes.container}>
           <Grid
             container
