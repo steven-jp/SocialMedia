@@ -127,6 +127,7 @@ async function createPost(formData) {
     })
     .then((res, req) => {
       console.log(res);
+      window.location.reload();
     })
     .catch((error) => {
       console.log(error);
@@ -139,6 +140,7 @@ async function deletePost(userId, postUserId, postId) {
     })
     .then((res, req) => {
       console.log(res);
+      window.location.assign("/posts");
     })
     .catch((error) => {
       console.log(error);
