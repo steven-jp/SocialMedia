@@ -135,10 +135,16 @@ export const deletePost = async (req, res) => {
     res.status(400).json({ error: "No Access to delete post" });
   } else {
     try {
-      let deletedPost = await PostPlaces.deleteOne({ _id: postId });
-      if (deletedPost.deletedCount === 0) {
+      //delete post
+      let deletedPost = await PostPlaces.findOneAndDelete({ _id: postId });
+      if (!deletedPost) {
         res.status(400).json({ error: "Post doesn't exist" });
       } else {
+        //delete images from post
+        let gridFs = GridFS();
+        deletedPost.images.forEach((imgId) => {
+          gridFs.delete(imgId);
+        });
         res.status(200).json({ message: "Successful delete of Post" });
       }
     } catch (error) {
