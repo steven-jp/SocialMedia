@@ -17,8 +17,10 @@ function App() {
   }, [setUserData]);
 
   /*BUGS =======================:
+   - Logged in users don't receive rendered NotFound.
    - Only allow certain images sent. Gifs cause errors 
    - controlled/uncontrolled props location error.
+   - Renders other routes when clicking links
    */
 
   return (

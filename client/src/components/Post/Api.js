@@ -132,6 +132,18 @@ async function createPost(formData) {
       console.log(error);
     });
 }
+async function deletePost(userId, postUserId, postId) {
+  axios
+    .delete(URL + `/posts/delete/${userId}/${postUserId}/${postId}`, {
+      withCredentials: true,
+    })
+    .then((res, req) => {
+      console.log(res);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+}
 
 export {
   getPosts,
@@ -139,4 +151,5 @@ export {
   getImageByFilename,
   getImageByID,
   getPostsByUserIds,
+  deletePost,
 };

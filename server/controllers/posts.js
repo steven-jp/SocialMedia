@@ -129,10 +129,20 @@ export const updatePost = async (req, res) => {
 };
 
 export const deletePost = async (req, res) => {
-  try {
-    await PostPlaces.remove({ _id: req.params.id });
-    res.status(200).json({ message: "Successful delete of Post" });
-  } catch (error) {
-    res.status(400).json({ error: "Error deleting post" });
+  const { userId, postUserId, postId } = req.params;
+  //verify user has access to delete post.
+  if (userId !== postUserId) {
+    res.status(400).json({ error: "No Access to delete post" });
+  } else {
+    try {
+      let deletedPost = await PostPlaces.deleteOne({ _id: postId });
+      if (deletedPost.deletedCount === 0) {
+        res.status(400).json({ error: "Post doesn't exist" });
+      } else {
+        res.status(200).json({ message: "Successful delete of Post" });
+      }
+    } catch (error) {
+      res.status(400).json({ error: "Error deleting post" });
+    }
   }
 };

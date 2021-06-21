@@ -23,7 +23,7 @@ export default function posts(uploads) {
 
   // not fully implemented below
   router.put("/:id", verify, updatePost);
-  router.delete("/:id", verify, deletePost);
+  router.delete("/delete/:userId/:postUserId/:postId", verify, deletePost);
 
   return router;
 }
