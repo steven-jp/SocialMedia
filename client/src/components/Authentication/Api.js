@@ -54,6 +54,7 @@ async function logoutUser() {
     })
     .then((res) => {
       console.log(res);
+      window.location.assign("/login");
     })
     .catch((error) => {
       console.log(error);
@@ -85,7 +86,6 @@ function getUserByName(author, setUserData) {
     })
     .then((res) => {
       if (res.data) {
-        console.log(res.data);
         setUserData(res.data);
       }
     })
@@ -95,10 +95,27 @@ function getUserByName(author, setUserData) {
 }
 
 //update a users attributes by their id
-async function updateUserById(userId, attributes) {
+async function addFriend(userId, attributes) {
   axios
     .post(
-      URL + "/user/update",
+      URL + "/user/add",
+      {
+        id: userId,
+        attributes: attributes,
+      },
+      { withCredentials: true, credentials: "include" },
+    )
+    .then((res) => {
+      console.log(res);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+}
+async function deleteFriend(userId, attributes) {
+  axios
+    .post(
+      URL + "/user/delete",
       {
         id: userId,
         attributes: attributes,
@@ -119,5 +136,6 @@ export {
   logoutUser,
   isLoggedIn,
   getUserByName,
-  updateUserById,
+  addFriend,
+  deleteFriend,
 };

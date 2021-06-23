@@ -4,7 +4,8 @@ import {
   createUser,
   isLoggedIn,
   getUserByName,
-  updateUserById,
+  addFriend,
+  deleteFriend,
   logoutUser,
 } from "../controllers/auth.js";
 
@@ -16,7 +17,8 @@ export default function auth() {
   router.post("/register", createUser);
   router.get("/login", isLoggedIn);
   router.get("/", getUserByName);
-  router.post("/update", updateUserById);
+  router.post("/add", addFriend);
+  router.post("/delete", deleteFriend);
 
   return router;
 }

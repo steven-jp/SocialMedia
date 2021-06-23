@@ -169,9 +169,9 @@ function updateErrorMessage(err) {
   return err;
 }
 //Add to user by user id
-export const updateUserById = async (req, res) => {
+export const addFriend = async (req, res) => {
   if (req.body.id === req.body.attributes.friend) {
-    res.status(400).json({ error: "User cannot add themselves" });
+    res.status(400).json({ error: "User cannot follow themselves" });
     return;
   }
   let { nModified } = await User.updateOne(
@@ -179,12 +179,26 @@ export const updateUserById = async (req, res) => {
     { $addToSet: { friends: req.body.attributes.friend } },
   );
   if (nModified === 0) {
-    res.status(400).json({ error: "No attributes were updated" });
+    res.status(400).json({ error: "No users were followed" });
   } else {
-    res.status(200).json({ message: "Successfully updated user" });
+    res.status(200).json({ message: "Successfully followed user" });
   }
 };
-
+export const deleteFriend = async (req, res) => {
+  if (req.body.id === req.body.attributes.friend) {
+    res.status(400).json({ error: "User cannot unfollow themselves" });
+    return;
+  }
+  let { nModified } = await User.updateOne(
+    { _id: req.body.id },
+    { $pull: { friends: req.body.attributes.friend } },
+  );
+  if (nModified === 0) {
+    res.status(400).json({ error: "No users were unfollowed" });
+  } else {
+    res.status(200).json({ message: "Successfully unfollowed user" });
+  }
+};
 //Creates a token and cookie valid for 1 day
 function createTokenAndCookie(res, req, id) {
   dotenv.config();
