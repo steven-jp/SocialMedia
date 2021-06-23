@@ -4,7 +4,7 @@ import * as crypto from "crypto";
 import jwt from "jsonwebtoken";
 
 const COOKIE_MAX_AGE = 86400;
-const COOKIE_NAME = "Occassions-cookie";
+const COOKIE_NAME = "SocialMedia-cookie";
 
 //login a user
 export const loginUser = async (req, res) => {

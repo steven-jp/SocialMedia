@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
-const COOKIE_NAME = "Occassions-cookie";
+const COOKIE_NAME = "SocialMedia-cookie";
 
 //verify user has required access
 export const verify = (req, res, next) => {
